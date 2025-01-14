@@ -1,10 +1,7 @@
-from fastapi import FastAPI
 from core.session import engine
 from base.base import Base
-from routes import app as FastAPIObject
+from core.routes import app as FastAPIObject
 from contextlib import contextmanager
-from sqladmin import Admin, ModelView
-from apps.user.models import User
 
 
 @contextmanager

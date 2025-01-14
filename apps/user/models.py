@@ -9,11 +9,15 @@ from external.enum import UserRole
 class User(Base):
     __tablename__ = "users"
 
-    user_id = Column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True
-    )
+    user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
-    email = Column(String(255), unique=True, nullable=False)
+    username = Column(
+        String(255),
+        unique=True,
+        index=True,
+        nullable=False,
+    )
+    email = Column(String(255), unique=True, index=True, nullable=False)
     password = Column(String(255), nullable=False)
     role = Column(Enum(UserRole), nullable=False)
 
