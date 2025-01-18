@@ -19,7 +19,7 @@ from core.jwt import (
 )
 
 
-def get_user(db: Session, username: str) -> UserInDB | None:
+def get_user(db: Session, username: str) -> Optional[UserInDB]:
     user = db.query(User).filter(User.username == username).first()
     if user:
         return UserInDB(
@@ -32,7 +32,7 @@ def get_user(db: Session, username: str) -> UserInDB | None:
     return None
 
 
-def authenticate_user(db: Session, email: str, password: str) -> UserInDB | None:
+def authenticate_user(db: Session, email: str, password: str) -> Optional[UserInDB]:
     user = get_user(db, email)
     if not user:
         return None
@@ -41,7 +41,7 @@ def authenticate_user(db: Session, email: str, password: str) -> UserInDB | None
     return user
 
 
-def generate_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+def generate_access_token(data: dict, expires_delta: timedelta) -> str:
     to_encode = data.copy()
 
     # Generate a unique token ID (jti) with random hex + timestamp + hash
@@ -62,7 +62,7 @@ def generate_access_token(data: dict, expires_delta: timedelta | None = None) ->
     return encoded_jwt
 
 
-def generate_refresh_token(data: dict, expires_delta: timedelta | None = None) -> str:
+def generate_refresh_token(data: dict, expires_delta: timedelta) -> str:
     to_encode = data.copy()
 
     # Generate a unique token ID (jti) with random hex + timestamp + hash
