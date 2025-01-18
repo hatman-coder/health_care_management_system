@@ -4,7 +4,7 @@ from apps.authorization.routes import router as login_router
 from base.homepage import router as homepage_router
 from fastapi.middleware.cors import CORSMiddleware
 from core.middleware import TokenValidationMiddleware
-
+from fastapi.staticfiles import StaticFiles
 
 swagger_ui_default_parameters = {
     "dom_id": "#swagger-ui",
@@ -35,9 +35,10 @@ app.add_middleware(
 )
 app.add_middleware(TokenValidationMiddleware)
 
-# USER APP
+# Routes
 app.include_router(user_router, prefix="/user", tags=["User"])
 app.include_router(login_router, prefix="/auth", tags=["Auth"])
 app.include_router(homepage_router, prefix="", tags=["Homepage"])
 
-# @app.get("/", response_class=HTMLResponse, include_in_schema=False)
+# STATIC DIR
+app.mount("/static", StaticFiles(directory="static"), name="static")

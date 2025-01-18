@@ -6,14 +6,17 @@ from contextlib import contextmanager
 
 @contextmanager
 def db_connect():
+    connection = None
     try:
-        engine.connect()
-        # Create all tables
+        connection = engine.connect()
         Base.metadata.create_all(engine)
         yield
     except Exception as e:
         print(f"Error during application setup: \n{e}\n")
+        raise
     finally:
+        if connection:
+            connection.close()
         engine.dispose()
 
 
